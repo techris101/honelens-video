@@ -13,10 +13,9 @@ import { CAM_A, DOCK, PANEL, ReadingCard, SLOT, SideCaption, panelFloatStyle, pr
  *
  * Same world and camera as the end of L04 and the start of L06: the Analyze panel alone (camera A,
  * zoom 1.9), right column. The reading card from L04 gives way to the summary card. Panel scroll goes
- * 0 -> 380 so the paragraph and the Explain more button come into view. While the sections stream in,
- * the scroll follows them down to 800, which also brings Show less into view. Clicking it collapses
- * the card, and the scroll settles at 500, which is where L06 starts (panel scroll -200 relative to
- * PICO, with PICO at body y 700).
+ * 0 -> 380 so the paragraph and the Explain more button come into view. The card then opens and the
+ * scroll follows the sections down to 800. It stays open, and the scroll ends at 1100, which is where
+ * L06 opens (the end of the expanded card at the top of the panel, PICO below).
  *
  * Beats (frames):
  *   0-24     reading card fades out; the summary card rises in at its place (12-36).
@@ -29,10 +28,8 @@ import { CAM_A, DOCK, PANEL, ReadingCard, SLOT, SideCaption, panelFloatStyle, pr
  *   430-640  the card grows (Explain more open) and the scroll follows it, 380 -> 800; caption "Explain
  *            more gives you about three times the detail." (470-640).
  *   436-636  the three labelled sections stream in (2.5 characters per frame).
- *   700-735  cursor glides to Show less; clicks at 735.
- *   735-760  the card collapses; the button reads "Explain more" again at 760.
- *   780-820  scroll 800 -> 500 (matches L06's opening frame).
- *   820-840  hold.
+ *   780-830  scroll 800 -> 1100 (matches L06's opening frame).
+ *   830-840  hold.
  *
  * Button positions are estimated from the card layout and checked on the stills.
  */
@@ -47,8 +44,7 @@ const T = {
   open: 430, openDur: 50,
   explainChars: 436, explainCps: 2.5,
   scroll2: 430, scroll2Dur: 210,
-  collapse: 735, collapseDur: 25,
-  scroll3: 780, scroll3Dur: 40,
+  scroll3: 780, scroll3Dur: 50,
   cap1: 40, cap1Out: 220, cap2: 470, cap2Out: 640,
   cursorOut: 780,
 } as const;
@@ -56,18 +52,16 @@ const T = {
 const SCROLL_START = 0;
 const SCROLL_BUTTON = 380;
 const SCROLL_EXPLAIN = 800;
-const SCROLL_HANDOFF = 500;
+// Where L06 opens: the end of the expanded card at the top of the panel, PICO below it.
+const SCROLL_HANDOFF = 1100;
 
-// Screen px of the two buttons in camera A (estimated). Show less sits at the bottom of the expanded card.
+// Screen px of the Explain more button in camera A (estimated).
 const BTN_SCREEN = { x: 1412, y: 844 };
-const SHOW_LESS_SCREEN = { x: 1412, y: 901 };
 
 const CURSOR_KEYS: CursorKey[] = [
   { at: T.cursorIn, x: 1700, y: 880 },
   { at: T.cursorArrive, x: BTN_SCREEN.x, y: BTN_SCREEN.y, dur: 60 },
   { at: T.click, x: BTN_SCREEN.x, y: BTN_SCREEN.y, click: true, dur: 6 },
-  { at: T.collapse - 20, x: SHOW_LESS_SCREEN.x, y: SHOW_LESS_SCREEN.y, dur: 16 },
-  { at: T.collapse, x: SHOW_LESS_SCREEN.x, y: SHOW_LESS_SCREEN.y, click: true, dur: 6 },
 ];
 
 const L05Summary: React.FC = () => {
@@ -82,10 +76,10 @@ const L05Summary: React.FC = () => {
   const para = progress(frame, T.para, T.paraDur, EASE_OUT);
   const button = progress(frame, T.button, T.buttonDur, EASE_OUT);
 
-  // Explain more: open at the click, collapsed again at Show less
+  // Explain more: open from the click and stays open into L06
   const pressed = pressCurve(frame, T.click);
-  const expanded = frame >= T.click && frame < T.collapse + T.collapseDur;
-  const explain = progress(frame, T.open, T.openDur, EASE_OUT) * (1 - progress(frame, T.collapse, T.collapseDur, EASE_IN_OUT));
+  const expanded = frame >= T.click;
+  const explain = progress(frame, T.open, T.openDur, EASE_OUT);
   const explainChars = Math.max(0, Math.floor((frame - T.explainChars) * T.explainCps));
 
   // Panel scroll
