@@ -71,6 +71,9 @@ jobs:
   plan:
     if: (github.event_name == 'workflow_dispatch' && inputs.mode == 'final') || github.event_name == 'push'
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
     steps:
       - run: echo "Rendering Short in 3 parts and Long in 7 parts"
 
