@@ -1,0 +1,11 @@
+[
+  { "at": 0, "type": "whoosh", "gain": 0.3 },
+  { "at": 24, "type": "pop", "gain": 0.35 },
+  { "at": 62, "type": "click", "gain": 0.8 },
+  { "at": 66, "type": "pop", "gain": 0.35 },
+  { "at": 96, "type": "type", "dur": 54, "gain": 0.5 },
+  { "at": 158, "type": "click", "gain": 0.5 },
+  { "at": 162, "type": "tick", "gain": 0.4 },
+  { "at": 190, "type": "stream", "dur": 54, "gain": 0.3 },
+  { "at": 256, "type": "whoosh", "gain": 0.3 }
+]

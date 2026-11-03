@@ -1,0 +1,136 @@
+name: Product videos
+
+# Builds the HoneLENS product videos (video/) with Remotion. Heavy rendering happens here, never on a
+# laptop. mode=stills renders review stills + contact sheets; mode=final renders both films in
+# parallel chunks, joins them, and adds the synthesized soundtrack.
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'stills or final'
+        required: true
+        default: 'stills'
+        type: choice
+        options: [stills, final]
+      comps:
+        description: 'Stills: all | short | long | comma-separated scene ids'
+        default: 'all'
+      per:
+        description: 'Stills: frames per scene'
+        default: '8'
+      frames:
+        description: 'Stills: explicit frames (overrides per), e.g. 0,90,180'
+        default: ''
+  push:
+    tags: ['video-v*']
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: video
+
+jobs:
+  stills:
+    if: github.event_name == 'workflow_dispatch' && inputs.mode == 'stills'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: video/package-lock.json
+      - run: npm ci
+      - run: npm run sync
+      - run: npx tsc --noEmit
+      - name: Render stills
+        run: node scripts/stills.mjs --comps="${{ inputs.comps }}" --per="${{ inputs.per }}" --frames="${{ inputs.frames }}" --scale=0.5
+      - name: Contact sheets (one image per scene)
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null
+          mkdir -p out/sheets
+          for d in out/stills/*/; do
+            id=$(basename "$d"); n=$(ls "$d" | wc -l)
+            case "$id" in S*) cols=$(( n < 4 ? n : 4 ));; *) cols=$(( n < 3 ? n : 3 ));; esac
+            rows=$(( (n + cols - 1) / cols ))
+            ffmpeg -hide_banner -loglevel error -y -pattern_type glob -i "$d/*.jpg" \
+              -filter_complex "scale=iw/2:ih/2,tile=${cols}x${rows}:padding=8:margin=8:color=0x888888" -frames:v 1 -q:v 3 "out/sheets/$id.jpg"
+          done
+          ls -la out/sheets
+      - uses: actions/upload-artifact@v4
+        with:
+          name: video-stills
+          path: |
+            video/out/stills
+            video/out/sheets
+          retention-days: 7
+
+  plan:
+    if: (github.event_name == 'workflow_dispatch' && inputs.mode == 'final') || github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Rendering Short in 3 parts and Long in 7 parts"
+
+  render:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - { comp: Short, part: 0, parts: 3 }
+          - { comp: Short, part: 1, parts: 3 }
+          - { comp: Short, part: 2, parts: 3 }
+          - { comp: Long, part: 0, parts: 7 }
+          - { comp: Long, part: 1, parts: 7 }
+          - { comp: Long, part: 2, parts: 7 }
+          - { comp: Long, part: 3, parts: 7 }
+          - { comp: Long, part: 4, parts: 7 }
+          - { comp: Long, part: 5, parts: 7 }
+          - { comp: Long, part: 6, parts: 7 }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: video/package-lock.json
+      - run: npm ci
+      - run: npm run sync
+      - name: Render ${{ matrix.comp }} part ${{ matrix.part }}
+        run: node scripts/render-chunk.mjs --comp=${{ matrix.comp }} --part=${{ matrix.part }} --parts=${{ matrix.parts }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: chunk-${{ matrix.comp }}-${{ matrix.part }}
+          path: video/out/chunks
+          retention-days: 3
+
+  finish:
+    needs: render
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: chunk-*
+          path: video/out/chunks
+          merge-multiple: true
+      - name: Install ffmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null
+      - name: Synthesize soundtrack
+        run: node scripts/make-audio.mjs --check
+      - name: Join, encode, add sound
+        run: bash scripts/finish.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: honelens-videos
+          path: video/out/final
+          retention-days: 30

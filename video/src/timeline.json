@@ -1,0 +1,44 @@
+{
+  "fps": 60,
+  "short": {
+    "width": 1080,
+    "height": 1920,
+    "bpm": 120,
+    "scenes": [
+      { "id": "S01Hook", "frames": 180 },
+      { "id": "S02Meet", "frames": 150 },
+      { "id": "S03Fab", "frames": 270 },
+      { "id": "S04Analyze", "frames": 660 },
+      { "id": "S05Limits", "frames": 450 },
+      { "id": "S06Chat", "frames": 270 },
+      { "id": "S07Montage", "frames": 720 },
+      { "id": "S08Key", "frames": 270 },
+      { "id": "S09Logo", "frames": 330 }
+    ]
+  },
+  "long": {
+    "width": 1920,
+    "height": 1080,
+    "bpm": 96,
+    "scenes": [
+      { "id": "L01Open", "frames": 540 },
+      { "id": "L02Title", "frames": 300 },
+      { "id": "L03Ch1", "frames": 150 },
+      { "id": "L04AnalyzeOpen", "frames": 630 },
+      { "id": "L05Summary", "frames": 840 },
+      { "id": "L06PicoLimits", "frames": 840 },
+      { "id": "L07Chat", "frames": 540 },
+      { "id": "L08Ch2", "frames": 150 },
+      { "id": "L09SourceCheck", "frames": 690 },
+      { "id": "L10CiteStats", "frames": 600 },
+      { "id": "L11Ch3", "frames": 150 },
+      { "id": "L12Ebp", "frames": 1050 },
+      { "id": "L13Ch4", "frames": 150 },
+      { "id": "L14Practice", "frames": 570 },
+      { "id": "L15Ch5", "frames": 150 },
+      { "id": "L16KeyGuide", "frames": 1830 },
+      { "id": "L17Plans", "frames": 420 },
+      { "id": "L18Logo", "frames": 360 }
+    ]
+  }
+}

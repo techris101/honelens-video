@@ -1,0 +1,15 @@
+[
+  { "at": 2, "type": "whoosh", "gain": 0.25 },
+  { "at": 26, "type": "pop", "gain": 0.4 },
+  { "at": 126, "type": "click", "gain": 0.6 },
+  { "at": 129, "type": "tick", "gain": 0.45 },
+  { "at": 200, "type": "click", "gain": 0.6 },
+  { "at": 202, "type": "copy", "gain": 0.6 },
+  { "at": 206, "type": "pop", "gain": 0.3 },
+  { "at": 274, "type": "whoosh", "gain": 0.25 },
+  { "at": 316, "type": "type", "dur": 36, "gain": 0.35 },
+  { "at": 372, "type": "click", "gain": 0.6 },
+  { "at": 378, "type": "whoosh", "gain": 0.15 },
+  { "at": 384, "type": "pop", "gain": 0.5 },
+  { "at": 438, "type": "tick", "gain": 0.45 }
+]

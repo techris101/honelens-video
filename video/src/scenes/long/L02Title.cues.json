@@ -1,0 +1,8 @@
+[
+  { "at": 6, "type": "tick", "gain": 0.3 },
+  { "at": 10, "type": "swell", "dur": 22, "gain": 0.25 },
+  { "at": 30, "type": "thud", "gain": 0.4 },
+  { "at": 74, "type": "tick", "gain": 0.3 },
+  { "at": 102, "type": "tick", "gain": 0.22 },
+  { "at": 284, "type": "whoosh", "gain": 0.3 }
+]

@@ -1,0 +1,12 @@
+[
+  { "at": 90, "type": "click", "gain": 0.6 },
+  { "at": 96, "type": "pop", "gain": 0.3 },
+  { "at": 98, "type": "whoosh", "gain": 0.15 },
+  { "at": 124, "type": "tick", "gain": 0.4 },
+  { "at": 136, "type": "tick", "gain": 0.4 },
+  { "at": 160, "type": "type", "dur": 108, "gain": 0.45 },
+  { "at": 296, "type": "click", "gain": 0.6 },
+  { "at": 302, "type": "tick", "gain": 0.35 },
+  { "at": 330, "type": "stream", "dur": 140, "gain": 0.3 },
+  { "at": 526, "type": "whoosh", "gain": 0.2 }
+]

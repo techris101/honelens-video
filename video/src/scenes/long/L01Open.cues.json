@@ -1,0 +1,14 @@
+[
+  { "at": 12, "type": "whoosh", "gain": 0.25 },
+  { "at": 184, "type": "whoosh", "gain": 0.25 },
+  { "at": 238, "type": "pop", "gain": 0.14 },
+  { "at": 249, "type": "pop", "gain": 0.14 },
+  { "at": 260, "type": "pop", "gain": 0.14 },
+  { "at": 271, "type": "pop", "gain": 0.14 },
+  { "at": 282, "type": "pop", "gain": 0.14 },
+  { "at": 293, "type": "pop", "gain": 0.14 },
+  { "at": 304, "type": "pop", "gain": 0.14 },
+  { "at": 334, "type": "swell", "dur": 40, "gain": 0.3 },
+  { "at": 374, "type": "thud", "gain": 0.35 },
+  { "at": 514, "type": "whoosh", "gain": 0.28 }
+]

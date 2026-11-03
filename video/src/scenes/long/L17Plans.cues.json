@@ -1,0 +1,18 @@
+[
+  { "at": 8, "type": "whoosh", "gain": 0.3 },
+  { "at": 40, "type": "tick", "gain": 0.25 },
+  { "at": 138, "type": "whoosh", "gain": 0.22 },
+  { "at": 158, "type": "whoosh", "gain": 0.3 },
+  { "at": 190, "type": "pop", "gain": 0.4 },
+  { "at": 200, "type": "tick", "gain": 0.16 },
+  { "at": 210, "type": "tick", "gain": 0.16 },
+  { "at": 220, "type": "tick", "gain": 0.16 },
+  { "at": 230, "type": "tick", "gain": 0.16 },
+  { "at": 236, "type": "pop", "gain": 0.4 },
+  { "at": 246, "type": "tick", "gain": 0.16 },
+  { "at": 256, "type": "tick", "gain": 0.16 },
+  { "at": 266, "type": "tick", "gain": 0.16 },
+  { "at": 276, "type": "tick", "gain": 0.16 },
+  { "at": 290, "type": "tick", "gain": 0.22 },
+  { "at": 404, "type": "whoosh", "gain": 0.25 }
+]

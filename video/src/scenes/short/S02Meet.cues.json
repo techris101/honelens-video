@@ -1,0 +1,6 @@
+[
+  { "at": 0, "type": "pop", "gain": 0.35 },
+  { "at": 14, "type": "chime", "gain": 0.45 },
+  { "at": 42, "type": "tick", "gain": 0.3 },
+  { "at": 134, "type": "whoosh", "gain": 0.4 }
+]

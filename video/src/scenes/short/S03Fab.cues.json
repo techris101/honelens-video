@@ -1,0 +1,10 @@
+[
+  { "at": 4, "type": "tick", "gain": 0.35 },
+  { "at": 10, "type": "whoosh", "gain": 0.3 },
+  { "at": 62, "type": "pop", "gain": 0.5 },
+  { "at": 138, "type": "whoosh", "gain": 0.25 },
+  { "at": 152, "type": "tick", "gain": 0.4 },
+  { "at": 200, "type": "click", "gain": 0.8 },
+  { "at": 214, "type": "swell", "dur": 56, "gain": 0.3 },
+  { "at": 256, "type": "whoosh", "gain": 0.4 }
+]
